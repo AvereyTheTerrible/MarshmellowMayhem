@@ -15,6 +15,7 @@ class GamePiece:
         self.is_live = True
         self.countdown_mobile = 0
         self.countdown_hidden = 0
+        self.team = None
     
     def __repr__(self):
         return RANK_NAME[self.rank]
@@ -40,12 +41,17 @@ class GamePiece:
             self.countdown_mobile -=1
         if self.countdown_hidden > 0:
             self.countdown_hidden -=1
-    
+
+def test_attack(p1, p2):
+    if p1 == p2:
+        print("You are cannot attack your army.")
+
 class Team:
     def __init__(self, name):
         self.is_live = True
         self.name = name
         self.soldiers = list()
+    
         print('Creating Team {}'.format(self.name))
         for i in range(len(TEAM_CONFIG)):
             n = TEAM_CONFIG[i]
@@ -53,8 +59,9 @@ class Team:
             r_name = RANK_NAME[i]
             print("\t{} X {}(s)".format(n, r_name))
             for _ in range(n):
-                GamePiece(i)
-                self.soldiers.append(GamePiece(r_num))
+                p = GamePiece(r_num)
+                p.team = self
+                self.soldiers.append(p)
         print('Team {} creation is finished!\n'.format(self.name))
         
     def run(self):
