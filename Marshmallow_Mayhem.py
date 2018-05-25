@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sun Apr 29 06:58:48 2018
-
 @author: Averey
 """
 RANK_NAME = ['General', 'Commander', 'Spy']
@@ -18,18 +17,22 @@ class GamePiece:
         self.team = None
     
     def __repr__(self):
-        return RANK_NAME[self.rank]
+        return '{}-{}'.format(self.team, RANK_NAME[self.rank])
     
     def attack(self, opponent):
+        print('{} attacks {}'.format(self, opponent))
         if self.rank == 0 and opponent.rank == len(RANK_NAME) - 1:
             is_live = False
         elif (self.rank == len(RANK_NAME) - 1 and opponent.rank == 0) or \
-            self.rank == len(RANK_NAME) - 1 and opponent.rank == 0:
-            print('You win, show and immobolized!')
+            (self.rank < opponent.rank):
+            print('Attacker wins and immobolized!')
             self.countdown_mobile = COUNTDOWN
             self.countdown_hidden = COUNTDOWN
         elif self.rank >= opponent.rank:
-            print('You lose.')
+
+
+
+            print('Attackers loses.')
         else:
             print('THIS SHOULD NEVER HAPPEN!')
         
@@ -42,9 +45,11 @@ class GamePiece:
         if self.countdown_hidden > 0:
             self.countdown_hidden -=1
 
-def test_attack(p1, p2):
-    if p1 == p2:
-        print("You are cannot attack your army.")
+def test_attack(attacker, defender):
+    if attacker.team == defender.team:
+        print("You are cannot attack your own army.")
+    else:
+        attacker.attack(defender) 
 
 class Team:
     def __init__(self, name):
@@ -100,5 +105,11 @@ class Game:
 if __name__ == '__main__':
     game1 = Game(['green','black'])
     game1.run()
+    test_attack(game1.teams[0].soldiers[0],
+                game1.teams[1].soldiers[1])
+    test_attack(game1.teams[0].soldiers[3],
+                game1.teams[0].soldiers[3])
+    test_attack(game1.teams[1].soldiers[3],
+                game1.teams[0].soldiers[0])
                     
             
