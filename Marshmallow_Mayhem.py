@@ -22,7 +22,7 @@ class GamePiece:
     def attack(self, opponent):
         print('{} attacks {}'.format(self, opponent))
         if self.rank == 0 and opponent.rank == len(RANK_NAME) - 1:
-            is_live = False
+            self.is_live = False
         elif (self.rank == len(RANK_NAME) - 1 and opponent.rank == 0) or \
             (self.rank < opponent.rank):
             print('Attacker wins and immobolized!')
